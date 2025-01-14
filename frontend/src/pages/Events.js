@@ -27,7 +27,7 @@ export default EventsPage;
 export async function loader() {
 	// fetch returns Promise that resolves to a Response
 	// RR supports response objects
-	const response = await fetch('http://localhost:8080/eventssss');
+	const response = await fetch('http://localhost:8080/events');
 
 	if (!response.ok) {
 		// 400 or 500 status
@@ -36,7 +36,10 @@ export async function loader() {
 		// 	message: 'Could not fetch events'
 		// };
 
-		throw {message: 'Could not fetch events.'}
+		// when Error thrown, RR will render closest errorElement
+		throw new Response(JSON.stringify({
+			message: 'Could not fetch events'
+		}), {status: 500})
 	} else {
 		// RR makes returned data available
 		// can return any kind of data via loader
