@@ -1,22 +1,19 @@
-import { Link } from 'react-router-dom';
 
-const DUMMY_EVENTS = [
-	{id: 1, title: "event #1"},
-	{id: 2, title: "event #2"},
-	{id: 3, title: "event #3"}
-]
+// gives access to closest loader data
+import { useLoaderData } from 'react-router-dom';
 
-function EventsPage(){
-	return <>
-		<h1>Events</h1>
-		<ul>
-			{DUMMY_EVENTS.map((evnt) => <li key={evnt.id}>
-					<Link to={`${evnt.id}`}>
-						{evnt.title}
-					</Link>
-			</li>)}
-		</ul>
-	</>
+import EventsList from '../components/EventsList';
+
+function EventsPage() {
+
+	// RR resolves Promise to returned data
+	const events = useLoaderData();
+	
+  return (
+    <>
+      <EventsList events={events} />
+    </>
+  );
 }
 
 export default EventsPage;
