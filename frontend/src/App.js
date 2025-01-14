@@ -14,9 +14,11 @@
 //    - /events/<some-id> => EventDetailPage
 //    - /events/new => NewEventPage
 //    - /events/<some-id>/edit => EditEventPage
-// 
+// DONE
 
 // 3. Add a root layout that adds the <MainNavigation> component above all page components
+// DONE
+
 // 4. Add properly working links to the MainNavigation
 // 5. Ensure that the links in MainNavigation receive an "active" class when active
 // 6. Output a list of dummy events to the EventsPage
@@ -30,13 +32,20 @@ import HomePage from './pages/Home';
 import EventsPage from './pages/Events'
 import EventDetailPage from './pages/EventDetail';
 import NewEventPage from './pages/NewEvent';
+import RootLayout from './pages/Root';
+
 
 const router = createBrowserRouter([
-  { path: '/', element: <HomePage /> },
-  { path: '/events', element: <EventsPage /> },
-  { path: '/events/:id', element: <EventDetailPage /> },
-  { path: '/events/new', element: <NewEventPage /> },
-  { path: 'events/:id/edit', element: <EventDetailPage /> }
+  { path: '/',
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'events', element: <EventsPage /> },
+      { path: 'events/:id', element: <EventDetailPage /> },
+      { path: 'events/new', element: <NewEventPage /> },
+      { path: 'events/:id/edit', element: <EventDetailPage /> }
+    ]
+  }
 ])
 
 function App() {
