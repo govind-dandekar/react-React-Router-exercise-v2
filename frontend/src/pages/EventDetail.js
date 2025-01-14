@@ -6,7 +6,7 @@ function EventDetailPage(){
 
 	return <>
 		<h1>Event Detail</h1>
-		<p>{`event id: ${params.id}`}</p>
+		<p>Event ID: {params.id}</p>
 	</>
 }
 
