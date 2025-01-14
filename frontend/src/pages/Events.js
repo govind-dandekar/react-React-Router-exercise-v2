@@ -5,13 +5,15 @@ import EventsList from '../components/EventsList';
 
 function EventsPage() {
 	// RR resolves Promise to returned data
-	const events = useLoaderData();
+	const data = useLoaderData();
+
+	// if (data.isError){
+	// 	return <p>{data.message}</p>
+	// }
+
+	const events = data.events;
 	
-  return (
-    <>
-      <EventsList events={events} />
-    </>
-  );
+  return <EventsList events={events} />;
 }
 
 export default EventsPage;
@@ -21,14 +23,27 @@ export default EventsPage;
 // RR will wait for loader to finish before page
 // rendered;  data will be there once page is rendered
 // dont need loading state but can cause loading delays
+// CANNOT USE REACT HOOKS IN LOADER (NOT A REACT COMPONENT)
 export async function loader() {
-	const response = await fetch('http://localhost:8080/events');
+	// fetch returns Promise that resolves to a Response
+	// RR supports response objects
+	const response = await fetch('http://localhost:8080/eventssss');
 
 	if (!response.ok) {
-		//...
+		// 400 or 500 status
+		// return { 
+		// 	isError: true, 
+		// 	message: 'Could not fetch events'
+		// };
+
+		throw {message: 'Could not fetch events.'}
 	} else {
-		const resData = await response.json();
 		// RR makes returned data available
-		return resData.events;
+		// can return any kind of data via loader
+		// including new Response() on client-side;
+		// RR will automatically extract data
+		// useLoaderData() automatically gives data that's
+		// part of the response
+		return response;
 	}
 }
