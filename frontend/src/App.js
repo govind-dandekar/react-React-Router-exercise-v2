@@ -93,7 +93,7 @@ const router = createBrowserRouter([
       {
         path: 'newsletter',
         element: <NewsletterPage />,
-        action: newsletterAction,
+        action: newsletterAction
       },
     ],
   },
