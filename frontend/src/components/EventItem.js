@@ -1,10 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link, useSubmit } from 'react-router-dom'
 
 import classes from './EventItem.module.css';
 
 function EventItem({ event }) {
+  // gives access to a submit fx
+  const submit = useSubmit();
+  
   function startDeleteHandler() {
-    // ...
+    const proceed = window.confirm('Are you sure?');
+
+    if (proceed){
+
+      // submits (data, request) to action
+      submit(null, {
+        method: 'delete'
+        // action: '/a-different-path'
+      })
+    }
   }
 
   return (

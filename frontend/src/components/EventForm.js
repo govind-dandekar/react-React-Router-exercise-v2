@@ -9,6 +9,7 @@ function EventForm({ method, event }) {
   }
 
   // Form 'post' request sent to action fx
+  // can send form data to different route by setting action attr
   return (
     <Form method='post' className={classes.form}>
       <p>
