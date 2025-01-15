@@ -1,4 +1,9 @@
-import { useNavigate, Form, useNavigation, useActionData } from 'react-router-dom';
+import { 
+  useNavigate, 
+  Form, 
+  useNavigation, 
+  useActionData, 
+  redirect } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
@@ -20,7 +25,7 @@ function EventForm({ method, event }) {
   // Form 'post' request sent to action fx
   // can send form data to different route by setting action attr
   return (
-    <Form method='post' className={classes.form}>
+    <Form method={method} className={classes.form}>
       { data && data.errors && <ul>
         {/* Object.values will loop over Object keys */}
         {Object.values(data.errors).map(err => <li key={err}>
@@ -83,3 +88,47 @@ function EventForm({ method, event }) {
 }
 
 export default EventForm;
+
+export async function action({request, params}){
+	const method = request.method;
+  
+  // gives resturns data object including form data
+	const data = await request.formData();
+
+	const eventData = {
+		title: data.get('title'),
+		image: data.get('image'),
+		description: data.get('description'),
+		date: data.get('date')
+	};
+
+  let url = 'http://localhost:8080/events';
+
+  if (method === 'PATCH'){
+    url = url + '/' + params.id;
+  }
+
+	const response = await fetch(url, {
+		method: method,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(eventData)
+	})
+
+	if (response.status === 422){
+		// returning response received from backend
+		// can use returned action data - common
+		// for validation errors
+		return response;
+	}
+
+	if (!response.ok){
+		throw new Response(JSON.stringify({
+			message: 'Could not save event'
+		}), {status: 500});
+	} else {
+		// must return somthing in action
+		return redirect('/events')
+	}
+}
