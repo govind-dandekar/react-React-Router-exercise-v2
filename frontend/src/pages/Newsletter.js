@@ -19,3 +19,4 @@ export async function action({ request }) {
   console.log(email);
   return { message: 'Signup successful!' };
 }
+
